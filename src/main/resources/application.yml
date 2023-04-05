@@ -1,0 +1,28 @@
+server:
+  port: 9091
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: copybox-keycloak
+            authorization-grant-type: authorization_code
+            scope: openid
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/KeycloakDemo
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/KeycloakDemo
+keycloak:
+  authorization-uri: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/auth
+  user-info-uri: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/userinfo
+  token-uri: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/token
+  logout: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/logout
+  jwk-set-uri: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/certs
