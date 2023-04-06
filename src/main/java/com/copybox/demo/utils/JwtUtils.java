@@ -19,34 +19,25 @@ public class JwtUtils {
     private int jwtExpirationMs;
 
     private Logger logger = LoggerFactory.getLogger(JwtUtils.class);
-    public String generateJwtKey(Authentication authentication){
+
+    public String generateJwtToken(Authentication authentication) {
+
         UserDetailsImpl user = (UserDetailsImpl) authentication.getPrincipal();
+
         return Jwts.builder()
-                .setId(user.getId())
-                .setSubject(user.getUsername())
+                .setSubject(user.getId())
+                .claim("name", user.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(new Date().getTime()+jwtExpirationMs))
                 .signWith(SignatureAlgorithm.HS512,jwtSecret)
                 .compact();
     }
-
-    public String generateJwtToken(Authentication authentication) {
-
-        UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setSubject((userPrincipal.getUsername()))
-                .setIssuedAt(new Date())
-                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
-                .compact();
-    }
     public String getUsernameFromJwtToken(String authToken){
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().getSubject();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().get("name", String.class);
     }
 
     public String getUserIdFromJwtToken(String authToken){
-        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().getId();
+        return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken).getBody().getSubject();
     }
 
     public boolean validateJwtToken(String authToken){

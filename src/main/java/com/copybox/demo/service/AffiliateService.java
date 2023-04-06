@@ -29,8 +29,8 @@ public class AffiliateService {
     private final WithdrawTnxRepository withdrawTnxRepository;
     private final JwtUtils jwtUtils;
 
-    private String getUserId(){
-        return jwtUtils.getUserIdFromJwtToken()
+    public String getUserId(String token){
+        return jwtUtils.getUserIdFromJwtToken(token);
     }
     //triggered when user register by refer link
     public Referral addReferral(String referredUserId, String refLink) throws Exception {

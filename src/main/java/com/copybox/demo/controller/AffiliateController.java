@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -25,37 +28,33 @@ public class AffiliateController {
 //    private String getUserId(){
 //        return keycloakService.getUserId();
 //    }
-    private String getUserId(@RequestHeader(name = "Authorization") String token){
-        return
+
+    private String getUserId(@RequestHeader(name = "Authorization") String token) {
+       return affiliateService.getUserId(token);
     }
 
-    @PostMapping("add-commission")
-    public void addCommissionToBalance(){
-        String userId = getUserId();
+    @PostMapping("add-commission/{userId}")
+    public void addCommissionToBalance(@PathVariable String userId){
         affiliateService.addCommissionToBalance(userId);
     }
 
-    @PatchMapping("subtract-balance")
-    public void subtractBalance(double subtractAmount) {
-        String userId = getUserId();
+    @PatchMapping("subtract-balance/{userId}")
+    public void subtractBalance(@PathVariable String userId, double subtractAmount) {
         affiliateService.subtractBalance(userId, subtractAmount);
     }
 
-    @PostMapping("add-withdraw-transaction")
-    public void addWithdrawTnx(double subtractAmount) {
-        String userId = getUserId();
+    @PostMapping("add-withdraw-transaction/{userId}")
+    public void addWithdrawTnx(@PathVariable String userId, double subtractAmount) {
         affiliateService.addWithdrawTnx(userId, subtractAmount);
     }
 
-    @GetMapping("get-balance")
-    public double getBalance(){
-        String userId = getUserId();
+    @GetMapping("get-balance/{userId}")
+    public double getBalance(@PathVariable String userId){
         return affiliateService.getBalance(userId);
     }
 
-    @GetMapping("get-total-earning")
-    public double getTotalEarning(){
-        String userId = getUserId();
+    @GetMapping("get-total-earning/{userId}")
+    public double getTotalEarning(@PathVariable String userId){
         return affiliateService.getTotalEarning(userId);
     }
 }
