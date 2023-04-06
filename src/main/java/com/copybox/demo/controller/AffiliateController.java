@@ -3,11 +3,8 @@ package com.copybox.demo.controller;
 import com.copybox.demo.service.AffiliateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -34,26 +31,31 @@ public class AffiliateController {
     }
 
     @PostMapping("add-commission/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void addCommissionToBalance(@PathVariable String userId){
         affiliateService.addCommissionToBalance(userId);
     }
 
     @PatchMapping("subtract-balance/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void subtractBalance(@PathVariable String userId, double subtractAmount) {
         affiliateService.subtractBalance(userId, subtractAmount);
     }
 
     @PostMapping("add-withdraw-transaction/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public void addWithdrawTnx(@PathVariable String userId, double subtractAmount) {
         affiliateService.addWithdrawTnx(userId, subtractAmount);
     }
 
     @GetMapping("get-balance/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public double getBalance(@PathVariable String userId){
         return affiliateService.getBalance(userId);
     }
 
     @GetMapping("get-total-earning/{userId}")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public double getTotalEarning(@PathVariable String userId){
         return affiliateService.getTotalEarning(userId);
     }
