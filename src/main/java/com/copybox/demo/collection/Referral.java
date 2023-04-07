@@ -14,11 +14,11 @@ public class Referral {
     @Id
     private String id;
     private String rootUserId;
-    private String referredUserId;
+    private String targetUserId;
 
     // if null is not making payment
     private LocalDateTime payAt;
-    private double commissionRate;
+//    private double commissionRate;
 //    private double commissionAmount;
 
 }

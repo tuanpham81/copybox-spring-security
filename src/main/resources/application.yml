@@ -27,5 +27,5 @@ spring:
 #  logout: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/logout
 #  jwk-set-uri: http://localhost:8080/realms/KeycloakDemo/protocol/openid-connect/certs
 copybox:
-  jwtSecret: hilab-copybox
+  jwtSecret: thisisfuckinglongandlongandlongkey
   jwtExpirationMs: 8640000
